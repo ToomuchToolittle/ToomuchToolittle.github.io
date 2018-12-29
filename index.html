@@ -10,13 +10,21 @@
             $.getJSON('Data.json', function (data) {
                 var html = '';
                 $.each(data, function (entryIndex, entry) {
-                    var subString = document.getElementById("textbox").value;
-                    if (
-                        entry.Language.includes(subString) ||
-                        entry.Artists.includes(subString) ||
-                        entry.Number.includes(subString) ||
-                        entry.Title.includes(subString)
-                    ) {
+                    var lang = document.getElementById("lang").value.trim();
+                    var art = document.getElementById("art").value.trim();
+                    var tit = document.getElementById("tit").value.trim();
+                    var result
+
+                    if(lang == '') result = entry.Artists.includes(art) && entry.Title.includes(tit);
+                    if(lang == '' && art == '') result = entry.Title.includes(tit);
+                    if(lang == '' && tit == '') result = entry.Artists.includes(art);
+
+                    if(art == '') result = entry.Language.includes(lang) && entry.Title.includes(tit);
+                    if(art == '' && tit == '') result = entry.Language.includes(lang);
+
+                    if(tit == '') result = entry.Language.includes(lang) && entry.Artists.includes(art);
+
+                    if (result) {
                         html += '<div class="entry">';
                         html += '<div class="Title"><b>' + entry.Title + '</b></div>';
                         html += '<div class="Number">Gallery number: ' + entry.Number + '</div>';
@@ -50,9 +58,13 @@
     <div id="container">
         <div class="letters">
             <FORM onkeydown="return SearchJson()">
-                <input type="text" style="display:none;" />
-                <input id="textbox" type="text" onkeydown="if (event.keyCode == 13)
-              document.getElementById('btnSearch').click()">
+                Artist:
+                <input id="art" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+
+                &nbspLanguage: <input id="lang" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+
+                &nbspTitle: <input id="tit" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+
                 <input type='BUTTON' id="btnSearch" value="Search" onclick="SearchJson()" />
             </FORM>
         </div>
