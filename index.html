@@ -1,2 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
 
-aa Hello World
+<head>
+    <meta charset="utf-8">
+    <title>jQuery를 이용한 JSON 데이터 구하기</title>
+    <link rel="stylesheet" href="base.css" type="text/css" />
+    <script src="jquery-3.3.1.min.js"></script>
+    <script>
+        function SearchJson() {
+            $.getJSON('Data.json', function (data) {
+                var html = '';
+                $.each(data, function (entryIndex, entry) {
+                    var subString = document.getElementById("textbox").value;
+                    if (
+                        entry.Language.includes(subString) ||
+                        entry.Artists.includes(subString) ||
+                        entry.Number.includes(subString) ||
+                        entry.Title.includes(subString)
+                    ) {
+                        html += '<div class="entry">';
+                        html += '<div class="Title"><b>' + entry.Title + '</b></div>';
+                        html += '<div class="Number">Gallery number: ' + entry.Number + '</div>';
+                        html += '<div class="Artists">Artists: ';
+                        if (entry.Artists == '') {
+                            html += 'N/A' + '</div>';
+                        }
+                        else {
+                            html += entry.Artists + '</div>';
+                        }
+                        html += '<div class="Language">Language: ';
+                        if (entry.Language == '') {
+                            html += 'N/A';
+                        }
+                        else {
+                            html += entry.Language;
+                        }
+                        html += '</div>';
+                        html += '<br></div>';
+                    }
+                });
+                console.log(html);
+                $('#dictionary').html(html);
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+    <div id="container">
+        <div class="letters">
+            <FORM onkeydown="return SearchJson()">
+                <input type="text" style="display:none;" />
+                <input id="textbox" type="text" onkeydown="if (event.keyCode == 13)
+              document.getElementById('btnSearch').click()">
+                <input type='BUTTON' id="btnSearch" value="Search" onclick="SearchJson()" />
+            </FORM>
+        </div>
+        <div id="dictionary">
+        </div>
+    </div>
+</body>
+
+</html>
