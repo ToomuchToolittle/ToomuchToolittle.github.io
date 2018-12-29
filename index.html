@@ -10,19 +10,19 @@
             $.getJSON('Data.json', function (data) {
                 var html = '';
                 $.each(data, function (entryIndex, entry) {
-                    var lang = document.getElementById("lang").value.trim();
-                    var art = document.getElementById("art").value.trim();
-                    var tit = document.getElementById("tit").value.trim();
+                    var lang = document.getElementById("lang").value.toLowerCase().trim();
+                    var art = document.getElementById("art").value.toLowerCase().trim();
+                    var tit = document.getElementById("tit").value.toLowerCase().trim();
                     var result
 
-                    if(lang == '') result = entry.Artists.includes(art) && entry.Title.includes(tit);
-                    if(lang == '' && art == '') result = entry.Title.includes(tit);
-                    if(lang == '' && tit == '') result = entry.Artists.includes(art);
+                    if(lang == '') result = entry.Artists.toLowerCase().includes(art) && entry.Title.toLowerCase().includes(tit);
+                    if(lang == '' && art == '') result = entry.Title.toLowerCase().includes(tit);
+                    if(lang == '' && tit == '') result = entry.Artists.toLowerCase().includes(art);
 
-                    if(art == '') result = entry.Language.includes(lang) && entry.Title.includes(tit);
-                    if(art == '' && tit == '') result = entry.Language.includes(lang);
+                    if(art == '') result = entry.Language.toLowerCase().includes(lang) && entry.Title.toLowerCase().includes(tit);
+                    if(art == '' && tit == '') result = entry.Language.toLowerCase().includes(lang);
 
-                    if(tit == '') result = entry.Language.includes(lang) && entry.Artists.includes(art);
+                    if(tit == '') result = entry.Language.toLowerCase().includes(lang) && entry.Artists.toLowerCase().includes(art);
 
                     if (result) {
                         html += '<div class="entry">';
@@ -57,7 +57,7 @@
 <body>
     <div id="container">
         <div class="letters">
-            <FORM onkeydown="return SearchJson()">
+            <FORM>
                 Artist:
                 <input id="art" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
 
