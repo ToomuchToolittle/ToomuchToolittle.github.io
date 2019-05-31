@@ -13,8 +13,9 @@
                     var lang = document.getElementById("lang").value.toLowerCase().trim();
                     var art = document.getElementById("art").value.toLowerCase().trim();
                     var tit = document.getElementById("tit").value.toLowerCase().trim(); 
-                    var result
+                    var result = entry;
 
+/*
                     if(lang == '') result = entry.Artists.toLowerCase().includes(art) && entry.Title.toLowerCase().includes(tit);
                     if(lang == '' && art == '') result = entry.Title.toLowerCase().includes(tit);
                     if(lang == '' && tit == '') result = entry.Artists.toLowerCase().includes(art);
@@ -24,11 +25,22 @@
 
                     if(tit == '') result = entry.Language.toLowerCase().includes(lang) && entry.Artists.toLowerCase().includes(art);
 
+*/
+                    if(art != ''){
+                        result = entry.Artists.toLowerCase().includes(art);
+                    }
+                    if(tit != ''){
+                        result = result && entry.Title.toLowerCase().includes(tit);
+                    }
+                    if(lang != ''){
+                        result = result && entry.Language.toLowerCase().includes(lang);
+                    }
+                    
                     if (result) {
                         var link = "https://hitomi.la/reader/" + entry.Number + ".html";
                         html += '<div class="entry">';
                         html += '<div class="Title"><b>' + entry.Title + '</b></div>';
-                        html += '<div class="Number">Gallery number: '+ '<a href = "' + link + '">' + entry.Number + '</a></div>';
+                        html += '<div class="Number">Gallery number: '+ '<a href = "' + link + '" target="_blank">' + entry.Number + '</a></div>';
                         html += '<div class="Artists">Artists: ';
                         if (entry.Artists == '') {
                             html += 'N/A' + '</div>';                                               
