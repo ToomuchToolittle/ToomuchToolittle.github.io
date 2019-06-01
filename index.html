@@ -4,86 +4,115 @@
 <head>
     <meta charset="utf-8">
     <title>Search Page</title>
-    <script src="jquery-3.3.1.min.js"></script>
+    <script src="jquery-3.4.1.min.js"></script>
     <script>
         function SearchJson() {
             $.getJSON('Data.json', function (data) {
                 var html = '';
                 $.each(data, function (entryIndex, entry) {
-                    var lang = document.getElementById("lang").value.toLowerCase().trim();
                     var art = document.getElementById("art").value.toLowerCase().trim();
-                    var tit = document.getElementById("tit").value.toLowerCase().trim(); 
+                    var lang = document.getElementById("lang").value.toLowerCase().trim();
+                    var tag = document.getElementById("tags").value.toLowerCase().trim();
+                    var tit = document.getElementById("tit").value.toLowerCase().trim();
+
                     var result = entry;
 
-/*
-                    if(lang == '') result = entry.Artists.toLowerCase().includes(art) && entry.Title.toLowerCase().includes(tit);
-                    if(lang == '' && art == '') result = entry.Title.toLowerCase().includes(tit);
-                    if(lang == '' && tit == '') result = entry.Artists.toLowerCase().includes(art);
-
-                    if(art == '') result = entry.Language.toLowerCase().includes(lang) && entry.Title.toLowerCase().includes(tit);
-                    if(art == '' && tit == '') result = entry.Language.toLowerCase().includes(lang);
-
-                    if(tit == '') result = entry.Language.toLowerCase().includes(lang) && entry.Artists.toLowerCase().includes(art);
-
-*/
                     if(art != ''){
                         result = entry.Artists.toLowerCase().includes(art);
                     }
-                    if(tit != ''){
-                        result = result && entry.Title.toLowerCase().includes(tit);
-                    }
+
                     if(lang != ''){
                         result = result && entry.Language.toLowerCase().includes(lang);
                     }
+
+                    if(tag != ''){
+                        var tags = tag.split(' ');
+                        for(var i in tags){
+                            result = result && entry.Tags.toLowerCase().includes(tags[i]);
+                        }
+                    }
+
+                    if(tit != ''){
+                        var titles = tit.split(' ');
+                        for(var i in titles){
+                            result = result && entry.Title.toLowerCase().includes(titles[i]);
+                        }
+                    }
+                    
                     
                     if (result) {
                         var link = "https://hitomi.la/reader/" + entry.Number + ".html";
-                        html += '<div class="entry">';
-                        html += '<div class="Title"><b>' + entry.Title + '</b></div>';
-                        html += '<div class="Number">Gallery number: '+ '<a href = "' + link + '" target="_sub">' + entry.Number + '</a></div>';
-                        html += '<div class="Artists">Artists: ';
-                        if (entry.Artists == '') {
-                            html += 'N/A' + '</div>';                                               
-                        }
-                        else {
-                            html += entry.Artists + '</div>';
-                        }
-                        html += '<div class="Language">Language: ';
-                        if (entry.Language == '') {
-                            html += 'N/A';
-                        }
-                        else {
-                            html += entry.Language;
-                        }
-                        html += '</div>';
-                        html += '<br></div>';
+
+                        html += '<table class="baseTable"><thead><tr><th scope="cols" colspan="2">' + '<a href = "' + link + '" target="_blank">' + entry.Title + '</a>' + '</th></tr></thead>';
+                        html += '<tbody>';
+                        html += '<tr> <th scope="row">Artist</th> <td>' + entry.Artists + '</td> </tr>';
+                        html += '<tr> <th scope="row">Number</th> <td>' + '<a href = "' + link + '" target="_blank">' + entry.Number + '</a>' + '</td> </tr>';
+                        html += '<tr> <th scope="row">Language</th> <td>' + entry.Language + '</td> </tr>';
+                        html += '<tr> <th scope="row">Tags</th> <td>' + entry.Tags + '</td> </tr>';
+                        html += '</tbody></table>';
                     }
                 });
-                console.log(html);
-                $('#dictionary').html(html);
+                //console.log(html);
+                $('#result').html(html);
             });
         }
 
     </script>
+
+    <body>
+        <div id="container">
+            <div class="letters">
+                <FORM>
+                    Artist: <input id="art" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">&nbsp
+    
+                    Language: <input id="lang" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">&nbsp
+    
+                    Tags: <input id="tags" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">&nbsp
+    
+                    Title: <input id="tit" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+    
+                    <input type='BUTTON' id="btnSearch" value="Search" onclick="SearchJson()" />
+                </FORM>
+            </div>
+                <div id="result">
+            </div>
+        </div>
+    </body>
+
+    <style>
+        table.baseTable{
+            border-collapse: collapse;
+            border: 2px solid #000;
+            text-align: left;
+            line-height: 1.5;
+            margin: 10px 10px;
+        }
+
+        table.baseTable thead th {
+            padding: 4px;
+            font-weight: bold;
+            font-size: 15px;
+            border-bottom: 2px solid #000000;
+            background: #AECDFF ;
+        }
+        table.baseTable tbody th {
+            width: 50px;
+            padding: 5px;
+            font-weight: bold;
+            font-size: 13px;
+            vertical-align: left;
+            border-right: 1px solid #000000;
+            border-bottom: 1px solid #828282;
+            background: #FFB6C1;
+        }
+        table.baseTable td {
+            width: 350px;
+            font-size: 13px;
+            padding: 5px;
+            vertical-align: left;
+            border-bottom: 1px solid #828282;
+            background: #FFE6EB;
+        }
+    </style>
 </head>
-
-<body>
-    <div id="container">
-        <div class="letters">
-            <FORM>
-                Artist:
-                <input id="art" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
-
-                &nbspLanguage: <input id="lang" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
-
-                &nbspTitle: <input id="tit" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
-
-                <input type='BUTTON' id="btnSearch" value="Search" onclick="SearchJson()" />
-            </FORM>
-        </div>
-        <div id="dictionary">
-        </div>
-    </div>
-</body>
-
 </html>
