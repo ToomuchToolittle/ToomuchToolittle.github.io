@@ -18,37 +18,37 @@
                     var result = entry;
 
                     if(art != ''){
-                        result = entry.Artists.toLowerCase().includes(art);
+                        result = entry.artists.toLowerCase().includes(art);
                     }
 
                     if(lang != ''){
-                        result = result && entry.Language.toLowerCase().includes(lang);
+                        result = result && entry.language.toLowerCase().includes(lang);
                     }
 
                     if(tag != ''){
                         var tags = tag.split(' ');
                         for(var i in tags){
-                            result = result && entry.Tags.toLowerCase().includes(tags[i]);
+                            result = result && entry.tags.toLowerCase().includes(tags[i]);
                         }
                     }
 
                     if(tit != ''){
                         var titles = tit.split(' ');
                         for(var i in titles){
-                            result = result && entry.Title.toLowerCase().includes(titles[i]);
+                            result = result && entry.title.toLowerCase().includes(titles[i]);
                         }
                     }
                     
                     
                     if (result) {
-                        var link = "https://hitomi.la/reader/" + entry.Number + ".html";
+                        var link = "https://hitomi.la/reader/" + entry.number + ".html";
 
-                        html += '<table class="baseTable"><thead><tr><th scope="cols" colspan="2">' + '<a href = "' + link + '" target="_blank">' + entry.Title + '</a>' + '</th></tr></thead>';
+                        html += '<table class="baseTable"><thead><tr><th scope="cols" colspan="2">' + '<a href = "' + link + '" target="_blank">' + entry.title + '</a>' + '</th></tr></thead>';
                         html += '<tbody>';
-                        html += '<tr> <th scope="row">Artist</th> <td>' + entry.Artists + '</td> </tr>';
-                        html += '<tr> <th scope="row">Number</th> <td>' + '<a href = "' + link + '" target="_blank">' + entry.Number + '</a>' + '</td> </tr>';
-                        html += '<tr> <th scope="row">Language</th> <td>' + entry.Language + '</td> </tr>';
-                        html += '<tr> <th scope="row">Tags</th> <td>' + entry.Tags + '</td> </tr>';
+                        html += '<tr> <th scope="row">Artist</th> <td>' + entry.artists + '</td> </tr>';
+                        html += '<tr> <th scope="row">Number</th> <td>' + '<a href = "' + link + '" target="_blank">' + entry.number + '</a>' + '</td> </tr>';
+                        html += '<tr> <th scope="row">Language</th> <td>' + entry.language + '</td> </tr>';
+                        html += '<tr> <th scope="row">Tags</th> <td>' + entry.tags + '</td> </tr>';
                         html += '</tbody></table>';
                     }
                 });
