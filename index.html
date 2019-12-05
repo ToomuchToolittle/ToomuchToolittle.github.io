@@ -17,39 +17,40 @@
 
                     var result = entry;
 
-                    if(art != ''){
+                    if (art != '') {
                         result = entry.artists.toLowerCase().includes(art);
                     }
 
-                    if(lang != ''){
+                    if (lang != '') {
                         result = result && entry.language.toLowerCase().includes(lang);
                     }
 
-                    if(tag != ''){
+                    if (tag != '') {
                         var tags = tag.split(' ');
-                        for(var i in tags){
+                        for (var i in tags) {
                             result = result && entry.tags.toLowerCase().includes(tags[i]);
                         }
                     }
 
-                    if(tit != ''){
+                    if (tit != '') {
                         var titles = tit.split(' ');
-                        for(var i in titles){
+                        for (var i in titles) {
                             result = result && entry.title.toLowerCase().includes(titles[i]);
                         }
                     }
-                    
-                    
+
+
                     if (result) {
                         var link = "https://hitomi.la/reader/" + entry.number + ".html";
 
-                        html += '<table class="baseTable"><thead><tr><th scope="cols" colspan="2">' + '<a href = "' + link + '" target="_blank">' + entry.title + '</a>' + '</th></tr></thead>';
-                        html += '<tbody>';
-                        html += '<tr> <th scope="row">Artist</th> <td>' + entry.artists + '</td> </tr>';
-                        html += '<tr> <th scope="row">Number</th> <td>' + '<a href = "' + link + '" target="_blank">' + entry.number + '</a>' + '</td> </tr>';
-                        html += '<tr> <th scope="row">Language</th> <td>' + entry.language + '</td> </tr>';
-                        html += '<tr> <th scope="row">Tags</th> <td>' + entry.tags + '</td> </tr>';
-                        html += '</tbody></table>';
+                        html += `<table class="baseTable"><thead><tr><th scope="cols" colspan="3"><a href="${link}" target="_blank">${entry.title}</a></th></th></tr></thead>`;
+                        html += "<tbody>";
+                        html += `<tr><th scope="row", rowspan="5"><div class="box"><div class="back"><img src="${entry.thumb2}" width="180" height="250"></div><div class="front"><img src="${entry.thumb1}" width="180" height="250"></div></div></th></tr>`;
+                        html += `<tr><th scope="row">Artist</th><td><a href="https://hitomi.la/artist/${entry.artists}-korean-1.html" target="_blank">${entry.artists}</a></td></tr>`;
+                        html += `<tr><th scope="row">Number</th><td><a href="${link}" target="_blank">${entry.number}</a></td></tr>`;
+                        html += `<tr><th scope="row">Language</th><td>${entry.language}</td></tr>`;
+                        html += `<tr><th scope="row">Tags</th><td>${entry.tags}</td></tr>`
+                        html += `</tbody></table>`;
                     }
                 });
                 //console.log(html);
@@ -59,60 +60,106 @@
 
     </script>
 
-    <body>
-        <div id="container">
-            <div class="letters">
-                <FORM>
-                    Artist: <input id="art" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">&nbsp
-    
-                    Language: <input id="lang" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">&nbsp
-    
-                    Tags: <input id="tags" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">&nbsp
-    
-                    Title: <input id="tit" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
-    
-                    <input type='BUTTON' id="btnSearch" value="Search" onclick="SearchJson()" />
-                </FORM>
-            </div>
-                <div id="result">
-            </div>
+<body>
+    <div id="container">
+        <div class="letters">
+            <FORM>
+                Artist: <input id="art" type="text"
+                    onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">&nbsp
+
+                Language: <input id="lang" type="text"
+                    onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">&nbsp
+
+                Tags: <input id="tags" type="text"
+                    onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">&nbsp
+
+                Title: <input id="tit" type="text"
+                    onkeydown="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+
+                <input type='BUTTON' id="btnSearch" value="Search" onclick="SearchJson()" />
+            </FORM>
         </div>
-    </body>
+        <div id="result">
+        </div>
+    </div>
+</body>
 
-    <style>
-        table.baseTable{
-            border-collapse: collapse;
-            border: 2px solid #000;
-            text-align: left;
-            line-height: 1.5;
-            margin: 10px 10px;
-        }
+<style type="text/css">
+    table.baseTable {
+        border-collapse: collapse;
+        border: 2px solid #000;
+        text-align: left;
+        line-height: 1.5;
+        margin: 10px 10px;
+    }
 
-        table.baseTable thead th {
-            padding: 4px;
-            font-weight: bold;
-            font-size: 15px;
-            border-bottom: 2px solid #000000;
-            background: #AECDFF ;
-        }
-        table.baseTable tbody th {
-            width: 50px;
-            padding: 5px;
-            font-weight: bold;
-            font-size: 13px;
-            vertical-align: left;
-            border-right: 1px solid #000000;
-            border-bottom: 1px solid #828282;
-            background: #FFB6C1;
-        }
-        table.baseTable td {
-            width: 350px;
-            font-size: 13px;
-            padding: 5px;
-            vertical-align: left;
-            border-bottom: 1px solid #828282;
-            background: #FFE6EB;
-        }
-    </style>
+    table.baseTable thead th {
+        padding: 5px;
+        font-weight: bold;
+        border-top: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        border-bottom: 2px solid #000000;
+        background: #AECDFF;
+    }
+
+    table.baseTable tbody th {
+        width: 50px;
+        padding: 5px;
+        font-weight: bold;
+        font-size: 13px;
+        vertical-align: left;
+        border-right: 1px solid #828282;
+        border-bottom: 1px solid #828282;
+        background: #FFB6C1;
+    }
+
+    table.baseTable td {
+        width: 350px;
+        font-size: 13px;
+        padding: 5px;
+        vertical-align: left;
+        border-bottom: 1px solid #828282;
+        background: #FFE6EB;
+    }
+
+    .box {
+        float: left;
+        width: 230px;
+        height: 250px;
+        margin: 0 0px;
+        position: relative;
+    }
+
+    .front {
+        float: left;
+        position: absolute;
+        top: 0px;
+        left: 50px;
+    }
+
+    .back {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+    }
+
+
+    /*
+.box:hover .back{transform: translateX(100px);}
+
+.back{transform: translateX(0px); transition: all 0.8s ease;}
+*/
+
+
+    .box:hover .front {
+        opacity: 0.15;
+        filter: alpha(opacity=30);
+    }
+
+    .front {
+        transition: all 0.5s ease;
+    }
+</style>
 </head>
+
 </html>
